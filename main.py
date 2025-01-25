@@ -38,18 +38,25 @@ def book_tennis_court():
         driver.find_element(By.NAME, "pc-login-username").send_keys(USERNAME)
         driver.find_element(By.NAME, "pc-login-password").send_keys(PASSWORD)
         driver.find_element(By.XPATH, "//div[@name='pc-login-btn']//div[@role='button']").click()
-
-        # Wait for the '關閉' button to be clickable
-        close_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@aria-label='關閉']"))
-        )
-        while close_button:
-            close_button.click()
-            WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[@name='pc-login-btn']//div[@role='button']"))
-            ).click()
+        
+        try:
             close_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@aria-label='關閉']")))
+                EC.element_to_be_clickable((By.XPATH, "//div[@aria-label='關閉']"))
+            )
+            # If close_button exists, enter the while loop
+            while close_button:
+                close_button.click()
+                WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//div[@name='pc-login-btn']//div[@role='button']"))
+                ).click()
+                # Re-check for the close_button in case it's replaced with another instance
+                close_button = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//div[@aria-label='關閉']"))
+                )
+
+        except Exception as e:
+            print("Close button not found or another error occurred:", e)
+            # Proceed with the rest of the script, no need for a while loop if close_button isn't found
 
         # Navigate to booking section
         # driver.find_element(By.XPATH, "//li[@role='button']//span[text()='設施']").click()
