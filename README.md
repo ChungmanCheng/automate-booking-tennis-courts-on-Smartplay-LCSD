@@ -8,5 +8,4 @@ This project automates the process of booking tennis courts on the [Smartplay LC
 
 ## Technologies Used
 - **Python 3.8+** – The main programming language.  
-- **Pyppeteer** – Headless Chromium browser automation.  
-- **Asyncio** – For handling concurrent booking requests. 
+- **Selenium** – Headless Firefox browser automation.  
